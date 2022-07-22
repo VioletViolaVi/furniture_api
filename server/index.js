@@ -8,19 +8,22 @@ instanceOfExpress.get("/", (req, res) => {
   res.send("Welcome to the server furniture API!");
 });
 
-instanceOfExpress.get("/fullFurnitureArr", (req, res) => {
+// get furniture objs
+instanceOfExpress.get("/entireFurnitureArr", (req, res) => {
   res.send(furnitureArr);
 });
 
 // handles id of furniture
-instanceOfExpress.get("/fullFurnitureArr/:id", (req, res) => {
-  //   console.log(
-  //     "furnitureArr[req.params.id] ===> ",
-  //     furnitureArr[indexNum].furnitureName
-  //   );
-  //   console.log("furnitureArr.length: ", furnitureArr.length); => 9
-  //   console.log("req.params.id: ", req.params.id);
-  //   console.log("indexNum: ", indexNum);
+instanceOfExpress.get("/entireFurnitureArr/:id", (req, res) => {
+  /*
+  console.log(
+    "furnitureArr[req.params.id] ===> ",
+    furnitureArr[indexNum].furnitureName
+  );
+  console.log("furnitureArr.length: ", furnitureArr.length); => 9
+  console.log("req.params.id: ", req.params.id);
+  console.log("indexNum: ", indexNum);  
+  */
 
   // holds num from req.params:{id:<num>}
   const idFromParams = req.params.id;
@@ -81,6 +84,53 @@ instanceOfExpress.get("/bathroomItems", (req, res) => {
   });
 
   res.send(bathroomFurniture);
+});
+
+// tells instance of express to listen to json bodies on post requests
+// this is middleware needed for post request & to read req.body
+instanceOfExpress.use(importedExpressModule.json());
+
+// this is about setting up the response to the POST request made in postman
+// create new furniture objs
+instanceOfExpress.post("/entireFurnitureArr", (req, res) => {
+  // empty obj for new furniture to go in
+  const emptyObj = req.body;
+  // assigning an key value pair
+  emptyObj.id = furnitureArr.length + 1;
+  // pushing newly built key value pair into arr
+  furnitureArr.push(emptyObj);
+
+  /*
+  console.log("req: ", req);
+  console.log("req.body: ", req.body);
+  console.log("furnitureArr: ", furnitureArr);
+  */
+
+  res.send("Post request has been sent");
+});
+
+instanceOfExpress.put("/entireFurnitureArr/:id", (req, res) => {
+  /*
+  console.log("req.params: ", req.params);
+  console.log("req.params.id: ", req.params.id);
+  console.log(typeof req.params.id);
+  */
+
+  // gets string value for id key in obj => {"id":<string>}
+  const idOfObj = req.params.id;
+  // changes string to number
+  const numVerOfId = parseInt(idOfObj) - 1;
+
+  /*
+  console.log("req.body: ", req.body);
+  console.log("req.body.furnitureName: ", req.body.furnitureName);
+  console.log("req.body: ", req.body);  
+  */
+
+  furnitureArr[numVerOfId].furnitureName = req.body.furnitureName;
+  furnitureArr[numVerOfId].room = req.body.room;
+
+  res.send("Put request has been sent ");
 });
 
 instanceOfExpress.listen(
