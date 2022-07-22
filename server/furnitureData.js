@@ -1,4 +1,4 @@
-const furnitureArr = [
+module.exports = [
   { id: 1, furnitureName: "fridge", room: "kitchen" },
   { id: 2, furnitureName: "oven", room: "kitchen" },
   { id: 3, furnitureName: "freezer", room: "kitchen" },
@@ -9,5 +9,3 @@ const furnitureArr = [
   { id: 8, furnitureName: "bathtub", room: "bathroom" },
   { id: 9, furnitureName: "toilet", room: "bathroom" },
 ];
-
-module.exports = furnitureArr;
